@@ -3,6 +3,8 @@ import sass from "gulp-sass";
 import autoprefixer from "gulp-autoprefixer";
 import minifyCSS from "gulp-csso";
 import del from "del";
+import bro from "gulp-browserify";
+import babel from "babelify";
 
 const paths = {
     styles: {
@@ -13,6 +15,7 @@ const paths = {
     js: {
         src: "assets/js/main.js",
         dest: "src/static/js",
+        watch: "assets/js/**/*.js",
     },
 };
 
@@ -31,8 +34,27 @@ const styles = () =>
         .pipe(minifyCSS())
         .pipe(gulp.dest(paths.styles.dest));
 
-const watchFiles = () => gulp.watch(paths.styles.watch, styles);
+const js = () =>
+    gulp
+        .src(paths.js.src)
+        .pipe(
+            bro({
+                transform: [
+                    babel.configure({
+                        presets: ["@babel/preset-env"],
+                    }),
+                ],
+            })
+        )
+        .pipe(gulp.dest(paths.js.dest));
 
-const dev = gulp.series(clean, styles, watchFiles);
+const watchFiles = () => {
+    gulp.watch(paths.js.watch, js);
+    gulp.watch(paths.styles.watch, styles);
+};
+
+const dev = gulp.series(clean, styles, js, watchFiles);
+
+export const build = gulp.series(clean, styles, js);
 
 export default dev;

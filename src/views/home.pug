@@ -6,6 +6,16 @@ html(lang="en")
         title RealTimeCanvas
         link(rel="stylesheet", href="styles/styles.css")
     body
-        h1 Hello
+        .loginBox#js
+            form#jsLogin
+                input(placeholder="What is yout nickname", type="text")
+        .gameContainer#jsGame
+            .chat
+                ul.chat__messages#jsMessages
+                form.chat__form#jsSendMsg
+                    input(placeholder="Write a message", type="text")
+            
+        script.
+            window.events = !{events}
         script(src="/socket.io/socket.io.js")
-        script(src="/js/index.js")
+        script(src="/js/main.js")

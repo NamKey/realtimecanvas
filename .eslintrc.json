@@ -1,12 +1,12 @@
 {
     "env": {
         "browser": true,
-        "es2020": true,
         "es6": true,
         "node": true
     },
     "extends": ["airbnb-base", "eslint:recommended", "prettier"],
     "parserOptions": {
+        "allowImportExportEverywhere": true,
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
